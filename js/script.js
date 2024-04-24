@@ -77,7 +77,7 @@ function fillHouses(){
         const option = document.createElement("option");
         option.id = c;
         option.textContent = c;
-        option.addEventListener("change", filterCharacters)
+        option.addEventListener("click", filterCharacters)
         houseSelectBox.appendChild(option);
     });
 }
@@ -93,11 +93,34 @@ function filterCharacters(){
     else{
         filteredCharacters = potterCharacters.filter(c => c.house == id);
     }
-    //functie die cards maakt hier
+    makeCharacterCards();
 }
 
 function makeCharacterCards(){
-    
+    const cardContainer = document.querySelector("main");
+    cardContainer.replaceChildren();
+    filteredCharacters.forEach(c => {
+        const card = document.createElement("article");
+        card.className = `.${c.house.toLowerCase()}`
+
+        const cardImage = document.createElement("img");
+        cardImage.src = c.image;
+
+        const nameCharacter = document.createElement("p");
+        nameCharacter.className = "nameCharacter";
+        nameCharacter.innerText = c.name
+
+        const nameActor = document.createElement("p");
+        nameActor.className = "actorName";
+        nameActor.innerText = c.actor;
+        
+        card.appendChild(cardImage);
+        card.appendChild(nameCharacter);
+        card.appendChild(nameActor);
+
+        cardContainer.appendChild(card);
+
+    });
 }
 
 

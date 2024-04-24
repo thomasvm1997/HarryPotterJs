@@ -20,7 +20,7 @@ function initialise() {
 function fillAncestry(){
     
     if(clickCountOnline % 2 == 0 ){ //offline
-        ancestry.replaceChildren();// we maken de lijst leeg
+        ancestry.replaceChildren();// lijst leegmaken
 
         ancesteryArrayOffline.forEach(c => {
             const radioButton = document.createElement("input");
@@ -45,6 +45,7 @@ function fillAncestry(){
         ancestry.replaceChildren();
     }
 }
+
 
 function isOnline(){
     clickCountOnline += 1

@@ -3,8 +3,12 @@
 window.addEventListener("load", initialise);
 
 let ancestry, buttonOnline, clickCountOnline;
+const ancesteryArrayOffline = ["All", "half-blood","muggleborn", "pure-blood"];
+const ancesteryArrayOnline = ["All", "half-blood","muggleborn", "pure-blood", "squib", "muggle", "half-veela", "quarter-veela"];
+const houseArray = ["All", "Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"];
+
 function initialise() {
-    //Variables
+    //Variables initializers
     ancestry = document.getElementById("ancestery");
     buttonOnline = document.getElementById("get-data-online");
     clickCountOnline = 0;

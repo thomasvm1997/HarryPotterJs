@@ -2,7 +2,7 @@
 
 window.addEventListener("load", initialise);
 
-let ancestry, buttonOnline, clickCountOnline;
+let ancestry, buttonOnline, clickCountOnline, houseSelectBox;
 const ancesteryArrayOffline = ["All", "half-blood","muggleborn", "pure-blood"];
 const ancesteryArrayOnline = ["All", "half-blood","muggleborn", "pure-blood", "squib", "muggle", "half-veela", "quarter-veela"];
 const houseArray = ["All", "Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"];
@@ -11,9 +11,11 @@ function initialise() {
     //Variables initializers
     ancestry = document.getElementById("ancestry");
     buttonOnline = document.getElementById("get-data-online");
+    houseSelectBox = document.getElementById("houses")
     clickCountOnline = 0;
     
     //event and functions
+    fillHouses();
     buttonOnline.addEventListener("click", isOnline);
 }
 
@@ -56,4 +58,13 @@ function isOnline(){
         buttonOnline.innerText = "Online";
     }
     fillAncestry();
+}
+
+function fillHouses(){
+    houseArray.forEach(c => {
+        const option = document.createElement("option");
+        option.value = c;
+        option.textContent = c;
+        houseSelectBox.appendChild(option);
+    });
 }

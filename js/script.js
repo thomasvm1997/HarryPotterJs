@@ -73,26 +73,30 @@ function isOnline(){
 }
 
 function fillHouses(){
+    
     houseArray.forEach(c => {
         const option = document.createElement("option");
         option.id = c;
         option.textContent = c;
-        option.addEventListener("click", filterCharacters)
+        option.value = c
+        //option.addEventListener("input", filterCharacters)
         houseSelectBox.appendChild(option);
     });
+    houseSelectBox.addEventListener("change", filterCharacters)
 }
 
 function filterCharacters(){
     let id = this.getAttribute("id");
-    
+    let houseValue = this.value;
     if(this.getAttribute("type") == "radio"){
     
         filteredCharacters = potterCharacters.filter(c => c.ancestry == id);
     
     }
     else{
-        filteredCharacters = potterCharacters.filter(c => c.house == id);
+        filteredCharacters = potterCharacters.filter(c => c.house == houseValue);
     }
+    
     makeCharacterCards();
 }
 
@@ -101,14 +105,14 @@ function makeCharacterCards(){
     cardContainer.replaceChildren();
     filteredCharacters.forEach(c => {
         const card = document.createElement("article");
-        card.className = `.${c.house.toLowerCase()}`
+        card.className = c.house.toLowerCase();
 
         const cardImage = document.createElement("img");
         cardImage.src = c.image;
 
         const nameCharacter = document.createElement("p");
         nameCharacter.className = "nameCharacter";
-        nameCharacter.innerText = c.name
+        nameCharacter.innerText = c.name;
 
         const nameActor = document.createElement("p");
         nameActor.className = "actorName";

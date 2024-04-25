@@ -2,7 +2,8 @@
 
 window.addEventListener("load", initialise);
 
-let ancestry, buttonOnline, clickCountOnline, houseSelectBox, cardContainer, radioButtons, filteredCharacters;
+let ancestry, buttonOnline, clickCountOnline, houseSelectBox, cardContainer, radioButtons, filteredCharacters,
+houseValue, ancestryId;
 
 const ancesteryArrayOffline = ["All", "half-blood","muggleborn", "pure-blood"];
 const ancesteryArrayOnline = ["All", "half-blood","muggleborn", "pure-blood", "squib", "muggle", "half-veela", "quarter-veela"];
@@ -14,11 +15,13 @@ function initialise() {
     buttonOnline = document.getElementById("get-data-online");
     houseSelectBox = document.getElementById("houses")
     cardContainer = document.querySelector(".cardContainer")
-    
+    houseValue = "All";
+    ancestryId = "All";
     clickCountOnline = 0;
     
     //event and functions
     fillHouses();
+    filterCharacters();
     buttonOnline.addEventListener("click", isOnline);
     
     
@@ -37,7 +40,7 @@ function fillAncestry(){
             radioButton.id = c; //hier gaan we de radiobutton aanmaken: rechtsreeks werken met `<input type="radio" checked /><label>${c}</label>` lukte niet.
             radioButton.name = "buttonAncestry"; //Zorgt ervoor dat de andere auto deselect wordt
             radioButton.value = value++;
-            radioButton.addEventListener("click", filterCharacters)
+            radioButton.addEventListener("click",function(){ancestryId = this.getAttribute("id");filterCharacters();});
             if(c == "All"){ 
                 radioButton.checked = true;
             }                                        
@@ -82,22 +85,42 @@ function fillHouses(){
         //option.addEventListener("input", filterCharacters)
         houseSelectBox.appendChild(option);
     });
-    houseSelectBox.addEventListener("change", filterCharacters)
+    houseSelectBox.addEventListener("input", function(){houseValue = this.value; filterCharacters()});
 }
 
 function filterCharacters(){
-    let id = this.getAttribute("id");
-    let houseValue = this.value;
-    if(this.getAttribute("type") == "radio"){
+    
+    
+    console.log(`Id:${ancestryId}`);
+    console.log(`HouseValue:${houseValue}`);
+    
+/*     if(this.getAttribute("type") == "radio"){
     
         filteredCharacters = potterCharacters.filter(c => c.ancestry == id);
     
     }
     else{
         filteredCharacters = potterCharacters.filter(c => c.house == houseValue);
+    } */
+    if(houseValue == "All" || ancestryId == "All"){
+        if(houseValue == "All" && ancestryId != "All"){
+            filteredCharacters = potterCharacters.filter(c => c.ancestry == ancestryId)
+        }
+        else if(ancestryId == "All" && houseValue != "All"){
+            filteredCharacters = potterCharacters.filter(c => c.house == houseValue)
+        }
+        else{
+            filteredCharacters = potterCharacters;
+        }
+        
+    }
+    else{
+        filteredCharacters = potterCharacters.filter(c => c.ancestry == ancestryId && c.house == houseValue);
+        
     }
     
     makeCharacterCards();
+    
 }
 
 function makeCharacterCards(){

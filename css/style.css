@@ -134,3 +134,13 @@ footer{
 .RadioButtonContainer{
   display: inline-block;
 }
+
+.nameCharacter{
+  font-size:x-large;
+  font-weight: bold;
+  color: #44C8F5;
+}
+
+.actorName{
+  color: #EAF5F5;
+}

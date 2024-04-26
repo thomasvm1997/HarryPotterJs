@@ -20,6 +20,7 @@ function initialise() {
     clickCountOnline = 0;
     
     //event and functions
+    fillAncestry();
     fillHouses();
     filterCharacters();
     buttonOnline.addEventListener("click", isOnline);
@@ -132,6 +133,7 @@ function makeCharacterCards(){
 
         const cardImage = document.createElement("img");
         cardImage.src = c.image;
+        cardImage.title = `Wizard: ${c.wizard == true ? "Yes": "No"}\nStatus: ${c.hogwartsStudent == true ? "Student": "Staff"}`;
 
         const nameCharacter = document.createElement("p");
         nameCharacter.className = "nameCharacter";

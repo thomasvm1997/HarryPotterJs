@@ -23,12 +23,27 @@ function initialise() {
     logCharacters();
     fillAncestry(ancesteryArrayOffline);
     fillHouses();
-    filterCharacters();
+    filterCharacters(potterCharacters);
     buttonOnline.addEventListener("click", isOnline);
 
 
 }
 
+function isOnline() {
+    clickCountOnline += 1;
+    filteredCharacters = [];
+    if (clickCountOnline % 2 == 0) {
+        buttonOnline.innerText = "Offline";
+        fillAncestry(ancesteryArrayOffline);
+        filterCharacters(potterCharacters);
+    }
+    else {
+        buttonOnline.innerText = "Online";
+        fillAncestry(ancesteryArrayOnline);
+        filterCharacters(arrayJson);
+    }
+    
+}
 function fillAncestry(param) { //KIJKEN OM DEZE TE LATEN WERKEN MET PARAMETER ARRAY!!! Probeersel
     ancestry.replaceChildren();// lijst leegmaken
     const container = document.createElement("div");
@@ -42,7 +57,11 @@ function fillAncestry(param) { //KIJKEN OM DEZE TE LATEN WERKEN MET PARAMETER AR
             radioButton.id = c; //hier gaan we de radiobutton aanmaken: rechtsreeks werken met `<input type="radio" checked /><label>${c}</label>` lukte niet.
             radioButton.name = "buttonAncestry"; //Zorgt ervoor dat de andere auto deselect wordt
             radioButton.value = value++;
-            radioButton.addEventListener("click", function () { ancestryId = this.getAttribute("id"); filterCharacters(); });
+            radioButton.addEventListener("click", function () {
+                ancestryId = this.getAttribute("id"); 
+                if (clickCountOnline % 2 == 0) {filterCharacters(potterCharacters);}
+                else{filterCharacters(arrayJson);}
+            });
             if (c == "All") {
                 radioButton.checked = true;
             }
@@ -61,22 +80,7 @@ function fillAncestry(param) { //KIJKEN OM DEZE TE LATEN WERKEN MET PARAMETER AR
     });
 
     ancestry.appendChild(container);
-    radioButtons = document.querySelector('input[type="radio"]');
-}
-
-
-function isOnline() {
-    clickCountOnline += 1;
-    
-    if (clickCountOnline % 2 == 0) {
-        buttonOnline.innerText = "Offline";
-        fillAncestry(ancesteryArrayOffline);
-    }
-    else {
-        buttonOnline.innerText = "Online";
-        fillAncestry(ancesteryArrayOnline);
-    }
-    
+    radioButtons = document.querySelector(`input[type="radio"]`);
 }
 
 
@@ -86,37 +90,41 @@ function fillHouses() {
         const option = document.createElement("option");
         option.id = c;
         option.textContent = c;
-        option.value = c
+        option.value = c;
         //option.addEventListener("input", filterCharacters)
         houseSelectBox.appendChild(option);
     });
-    houseSelectBox.addEventListener("input", function () { houseValue = this.value; filterCharacters() });
+    houseSelectBox.addEventListener("input", function () { 
+        houseValue = this.value; 
+        if (clickCountOnline % 2 == 0) {filterCharacters(potterCharacters); } else{filterCharacters(arrayJson);}
+    });
 }
 
-function filterCharacters() {
+function filterCharacters(param) {
 
 
     console.log(`Id:${ancestryId}`);
     console.log(`HouseValue:${houseValue}`);
+    console.log(`param:${param}`);
 
 
     if (houseValue == "All" || ancestryId == "All") {
         if (houseValue == "All" && ancestryId != "All") {
-            filteredCharacters = potterCharacters.filter(c => c.ancestry == ancestryId)
+            filteredCharacters = param.filter(c => c.ancestry == ancestryId);
         }
         else if (ancestryId == "All" && houseValue != "All") {
-            filteredCharacters = potterCharacters.filter(c => c.house == houseValue)
+            filteredCharacters = param.filter(c => c.house == houseValue);
         }
         else {
-            filteredCharacters = potterCharacters;
+            filteredCharacters = param;
         }
 
     }
     else {
-        filteredCharacters = potterCharacters.filter(c => c.ancestry == ancestryId && c.house == houseValue);
+        filteredCharacters = param.filter(c => c.ancestry == ancestryId && c.house == houseValue);
 
     }
-
+    console.log(filteredCharacters);
     makeCharacterCards();
 
 }
@@ -129,7 +137,12 @@ function makeCharacterCards() {
         card.className = c.house.toLowerCase();
 
         const cardImage = document.createElement("img");
+        if(c.image == ""){
+            cardImage.src = "../img/No_Image_Available.jpg"
+        }
+        else{
         cardImage.src = c.image;
+        }
         cardImage.title = `Wizard: ${c.wizard == true ? "Yes" : "No"}\nStatus: ${c.hogwartsStudent == true ? "Student" : "Staff"}`;
 
         const nameCharacter = document.createElement("p");
@@ -156,6 +169,6 @@ function makeCharacterCards() {
 async function logCharacters() {
     const response = await fetch("https://thomasvm23.github.io/super-octo-guide/characters.json");
     arrayJson = await response.json();
-
+    
     console.log(arrayJson);
 }

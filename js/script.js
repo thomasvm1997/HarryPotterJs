@@ -2,7 +2,7 @@
 
 window.addEventListener("load", initialise);
 
-let ancestry, buttonOnline, clickCountOnline, houseSelectBox, cardContainer, radioButtons, filteredCharacters,
+let ancestry, buttonOnline, clickCountOnline, houseSelectBox, radioButtons, filteredCharacters,
     houseValue, ancestryId, arrayJson;
 
 const ancesteryArrayOffline = ["All", "half-blood", "muggleborn", "pure-blood"];
@@ -14,7 +14,7 @@ function initialise() {
     ancestry = document.getElementById("ancestry");
     buttonOnline = document.getElementById("get-data-online");
     houseSelectBox = document.getElementById("houses")
-    cardContainer = document.querySelector(".cardContainer")
+    
     houseValue = "All";
     ancestryId = "All";
     clickCountOnline = 0;
@@ -125,13 +125,25 @@ function filterCharacters(param) {
 
     }
     console.log(filteredCharacters);
+    
+    
     makeCharacterCards();
-
+    
 }
 
 function makeCharacterCards() {
     const cardContainer = document.querySelector("main");
     cardContainer.replaceChildren();
+
+    if(filteredCharacters.length == 0){
+        const card = document.createElement("article");
+        card.className = "noData";
+        const p = document.createElement("p");
+        p.innerText = "No data for these filters";
+        card.appendChild(p);
+        cardContainer.appendChild(card);
+    }
+    else{
     filteredCharacters.forEach(c => {
         const card = document.createElement("article");
         card.className = c.house.toLowerCase();
@@ -160,6 +172,7 @@ function makeCharacterCards() {
         cardContainer.appendChild(card);
 
     });
+}
 }
 
 

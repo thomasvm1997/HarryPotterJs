@@ -32,6 +32,8 @@ function initialise() {
 function isOnline() {
     clickCountOnline += 1;
     filteredCharacters = [];
+    houseValue = "All";
+    ancestryId = "All";
     
     if (clickCountOnline % 2 == 0) {
         buttonOnline.innerText = "Offline";

@@ -2,7 +2,7 @@
 
 window.addEventListener("load", initialise);
 
-let ancestry, buttonOnline, clickCountOnline, houseSelectBox, radioButtons, filteredCharacters,
+let ancestry, buttonOnline, clickCountOnline, houseSelectBox, filteredCharacters,
     houseValue, ancestryId, arrayJson;
 
 const ancesteryArrayOffline = ["All", "half-blood", "muggleborn", "pure-blood"];
@@ -32,15 +32,18 @@ function initialise() {
 function isOnline() {
     clickCountOnline += 1;
     filteredCharacters = [];
+    
     if (clickCountOnline % 2 == 0) {
         buttonOnline.innerText = "Offline";
         fillAncestry(ancesteryArrayOffline);
         filterCharacters(potterCharacters);
+        
     }
     else {
         buttonOnline.innerText = "Online";
         fillAncestry(ancesteryArrayOnline);
         filterCharacters(arrayJson);
+        
     }
     
 }
@@ -80,7 +83,7 @@ function fillAncestry(param) { //KIJKEN OM DEZE TE LATEN WERKEN MET PARAMETER AR
     });
 
     ancestry.appendChild(container);
-    radioButtons = document.querySelector(`input[type="radio"]`);
+    
 }
 
 

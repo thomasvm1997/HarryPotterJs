@@ -32,6 +32,7 @@ function initialise() {
 function isOnline() {
     clickCountOnline += 1;
     filteredCharacters = [];
+    houseSelectBox.options[0].selected = true;
     houseValue = "All";
     ancestryId = "All";
     

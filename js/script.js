@@ -137,7 +137,7 @@ function filterCharacters(param) {
     
 }
 
-function makeCharacterCards() {
+function makeCharacterCards() { // Enkel in deze code moeten we kijken voor de paginereing met splice. Geeft geen effect op de andere methodes.
     const cardContainer = document.querySelector("main");
     cardContainer.replaceChildren();
 
@@ -149,6 +149,7 @@ function makeCharacterCards() {
         card.appendChild(p);
         cardContainer.appendChild(card);
     }
+    
     else{
     filteredCharacters.forEach(c => {
         const card = document.createElement("article");
